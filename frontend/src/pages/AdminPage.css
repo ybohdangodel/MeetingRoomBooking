@@ -1,0 +1,36 @@
+.admin-page {
+  flex: 1;
+  padding: 2rem 0;
+}
+
+.admin-page .page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.admin-page h1 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.filter-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-controls label {
+  font-weight: 600;
+  margin: 0;
+}
+
+.filter-controls select {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  min-width: 150px;
+}

@@ -1,0 +1,24 @@
+.bookings-list {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+}
+
+.bookings-list h2 {
+  font-size: 1.3rem;
+  margin: 0 0 1.5rem 0;
+  color: #2c3e50;
+}
+
+.bookings-list__items {
+  display: flex;
+  flex-direction: column;
+}
+
+.bookings-list__items > p {
+  text-align: center;
+  color: #999;
+  padding: 1rem;
+}

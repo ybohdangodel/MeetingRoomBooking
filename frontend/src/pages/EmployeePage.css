@@ -1,0 +1,16 @@
+.employee-page {
+  flex: 1;
+  padding: 2rem 0;
+}
+
+.employee-page .page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.employee-page h1 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
