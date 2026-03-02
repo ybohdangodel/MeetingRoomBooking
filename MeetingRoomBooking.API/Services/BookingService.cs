@@ -62,11 +62,15 @@ public class BookingService : IBookingService
 
     public async Task<OperationResult<BookingDto>> CreateBookingAsync(CreateBookingRequest request)
     {
+        // Ensure incoming DateTimes are treated as UTC
+        var startTime = DateTime.SpecifyKind(request.StartTime, DateTimeKind.Utc);
+        var endTime = DateTime.SpecifyKind(request.EndTime, DateTimeKind.Utc);
+
         // Validate request
-        if (request.EndTime <= request.StartTime)
+        if (endTime <= startTime)
             return OperationResult<BookingDto>.FailureResult("End time must be after start time.");
 
-        if (request.StartTime < DateTime.UtcNow)
+        if (startTime < DateTime.UtcNow)
             return OperationResult<BookingDto>.FailureResult("Cannot book in the past.");
 
         // Verify room exists
@@ -82,8 +86,8 @@ public class BookingService : IBookingService
         // Check for conflicts
         var hasConflict = await _conflictDetector.HasConflictAsync(
             request.RoomId, 
-            request.StartTime, 
-            request.EndTime
+            startTime, 
+            endTime
         );
         if (hasConflict)
             return OperationResult<BookingDto>.FailureResult("Room is already booked for this time slot.");
@@ -93,8 +97,8 @@ public class BookingService : IBookingService
         {
             UserId = request.UserId,
             RoomId = request.RoomId,
-            StartTime = request.StartTime,
-            EndTime = request.EndTime,
+            StartTime = startTime,
+            EndTime = endTime,
             Status = "Pending",
             Notes = request.Notes,
             CreatedAt = DateTime.UtcNow

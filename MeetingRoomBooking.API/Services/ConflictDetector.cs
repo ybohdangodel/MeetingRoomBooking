@@ -28,6 +28,10 @@ public class ConflictDetector : IConflictDetector
 
     public async Task<bool> HasConflictAsync(int roomId, DateTime startTime, DateTime endTime)
     {
+        // Ensure times are treated as UTC
+        startTime = DateTime.SpecifyKind(startTime, DateTimeKind.Utc);
+        endTime = DateTime.SpecifyKind(endTime, DateTimeKind.Utc);
+
         // Check if there are any confirmed bookings that overlap with the requested time slot
         var conflict = await _context.Bookings
             .Where(b => b.RoomId == roomId && b.Status != "Canceled")
