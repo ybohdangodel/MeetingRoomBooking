@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: meetingroom-db
+    environment:
+      POSTGRES_DB: meetingroom
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - meetingroom-network
+
+  api:
+    build:
+      context: ./MeetingRoomBooking.API
+      dockerfile: Dockerfile
+    container_name: meetingroom-api
+    environment:
+      DATABASE_URL: "Host=postgres;Port=5432;Database=meetingroom;Username=postgres;Password=postgres"
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+    networks:
+      - meetingroom-network
+
+volumes:
+  postgres_data:
+
+networks:
+  meetingroom-network:
+    driver: bridge
