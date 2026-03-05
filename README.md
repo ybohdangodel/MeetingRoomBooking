@@ -1,3 +1,52 @@
+## Prompts used
+I used Clude Code 4.5 in planning and agent modes
+1. Firstly, I asked to create a scope of work and tech requirements of the app:
+"Idea: An internal platform for booking meeting rooms and devices
+This is a classic corporate tool (Internal Tool). It easily allows for different layouts: one for employees (booking), another for admins (office management).
+I need to build it with dotnet on backend and react on frontend
+create tasks to cover the scope of work"
+2. I asked to create md files with styleguides and best practices to be used by agent during implementation.
+3. Then I answered on a few questions and got implementation plan:
+Backend (.NET 9)
+Create dotnet new webapi project.
+Add EF Core + Npgsql (PostgreSQL provider).
+Define entities:
+User (id, name, role: "Employee"|"Admin")
+Room (id, name, capacity, building)
+Device (id, name, type: "Projector"|"Whiteboard")
+Booking (id, userId, roomId, start, end, status: "Pending"|"Confirmed"|"Canceled")
+Create migrations and seed 2–3 test users (one admin, one employee) + sample rooms/devices.
+Implement simple auth middleware: request includes userId header or query param (hardcoded users).
+Build API endpoints:
+GET /api/rooms → list all rooms
+POST /api/bookings → create booking (check conflicts)
+GET /api/bookings?userId={id} → user's bookings
+PUT /api/bookings/{id}/cancel → cancel booking
+GET /api/users/me → current user
+Admin only:
+PUT /api/rooms/{id} → edit room
+GET /api/bookings → all bookings (for oversight)
+PUT /api/bookings/{id}/approve → admin approval
+Add basic validation (no overlapping bookings, room capacity, time sanity checks).
+Expose API docs (Swagger/OpenAPI is auto-generated).
+Frontend (React)
+Create app with Vite (faster than CRA).
+Install axios (API calls) and react-router (separate pages).
+Minimal state: useState + Context API (no Redux).
+Create pages:
+Employee page:
+Room list with calendar picker.
+"Book Room" form (room, date, time).
+"My Bookings" list (cancel button).
+Admin page:
+Room management (list, edit capacity/name).
+All bookings overview (approve/reject, assign devices).
+Simple user lookup.
+Add role-switcher component (hardcoded users from backend) to test both views.
+Error messages for conflicts, invalid times, etc.
+
+4. Then I troubleshooted a bit with agent, tested app and asked to do a few bugfixes and changes.
+
 # Meeting Room Booking System
 
 An internal platform for booking meeting rooms and devices with separate interfaces for employees and administrators.
