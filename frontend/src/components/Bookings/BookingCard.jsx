@@ -46,7 +46,7 @@ export default function BookingCard({ booking, onCancel, onApprove, showActions 
               )}
             </>
           )}
-          {booking.status !== 'Pending' && (
+          {booking.status === 'Confirmed' && (
             <button className="button button--danger" onClick={() => onCancel(booking.id)}>
               Cancel
             </button>

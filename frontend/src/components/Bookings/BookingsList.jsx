@@ -45,14 +45,19 @@ export default function BookingsList({ onRefresh }) {
   if (loading) return <p className="loading">Loading bookings...</p>;
   if (error) return <ErrorAlert message={error} onDismiss={() => setError(null)} />;
 
+  // Sort bookings by start time (most recent first)
+  const sortedBookings = [...bookings].sort(
+    (a, b) => new Date(b.startTime) - new Date(a.startTime)
+  );
+
   return (
     <div className="bookings-list">
       <h2>My Bookings</h2>
       <div className="bookings-list__items">
-        {bookings.length === 0 ? (
+        {sortedBookings.length === 0 ? (
           <p>You have no bookings yet.</p>
         ) : (
-          bookings.map((booking) => (
+          sortedBookings.map((booking) => (
             <BookingCard
               key={booking.id}
               booking={booking}

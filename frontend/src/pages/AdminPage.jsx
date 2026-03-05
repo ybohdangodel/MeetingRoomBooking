@@ -60,6 +60,11 @@ export default function AdminPage() {
     return b.status === filter;
   });
 
+  // Sort bookings by start time (most recent first)
+  const sortedBookings = [...filteredBookings].sort(
+    (a, b) => new Date(b.startTime) - new Date(a.startTime)
+  );
+
   if (loading) return <p className="loading">Loading bookings...</p>;
 
   return (
@@ -84,12 +89,12 @@ export default function AdminPage() {
         </div>
 
         <div className="bookings-list">
-          <h2>All Bookings ({filteredBookings.length})</h2>
+          <h2>All Bookings ({sortedBookings.length})</h2>
           <div className="bookings-list__items">
-            {filteredBookings.length === 0 ? (
+            {sortedBookings.length === 0 ? (
               <p>No bookings found.</p>
             ) : (
-              filteredBookings.map((booking) => (
+              sortedBookings.map((booking) => (
                 <BookingCard
                   key={booking.id}
                   booking={booking}
